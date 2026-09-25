@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nti9_firebase/features/auth/presentation/views/register_view.dart';
 import 'package:nti9_firebase/features/auth/presentation/views/widgets/auth_header.dart';
 import 'package:nti9_firebase/features/auth/presentation/views/widgets/auth_text_field.dart';
@@ -7,6 +8,7 @@ import 'package:nti9_firebase/features/auth/presentation/views/widgets/primary_b
 import 'package:nti9_firebase/features/auth/presentation/views/widgets/social_auth_row.dart';
 
 import '../../../../core/utils/app_theme.dart';
+import '../../../home/presentation/views/home_view.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -42,7 +44,27 @@ class _LoginScreenState extends State<LoginScreen> {
           email: _emailController.text,
           password: _passwordController.text
       );
+      Navigator.pushAndRemoveUntil(
+          context, MaterialPageRoute(builder: (context)=> HomeView()), (r)=> false);
+      Fluttertoast.showToast(
+          msg: "Login Success",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: AppColors.success,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
     } on FirebaseAuthException catch (e) {
+      Fluttertoast.showToast(
+          msg: "${e.code} ${e.message}",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
