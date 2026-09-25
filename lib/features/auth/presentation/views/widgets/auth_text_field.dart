@@ -41,6 +41,8 @@ class _AuthTextFieldState extends State<AuthTextField> {
       controller: widget.controller,
       obscureText: _obscured,
       keyboardType: widget.keyboardType,
+      maxLines: widget.keyboardType == TextInputType.multiline ?
+      null:1,
       textInputAction: widget.textInputAction,
       validator: widget.validator,
       autofillHints: widget.autofillHints,
@@ -49,7 +51,9 @@ class _AuthTextFieldState extends State<AuthTextField> {
         fontSize: 15,
         color: AppColors.ink,
       ),
+
       decoration: InputDecoration(
+
         labelText: widget.label,
         hintText: widget.hintText,
         prefixIcon: widget.prefixIcon == null
